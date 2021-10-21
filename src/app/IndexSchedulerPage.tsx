@@ -125,14 +125,13 @@ const StudyObjectSchedulerPage = () => {
         return acc;
       }, {})
 
-    // return supermemoScheduleThree(currentDate, firstLabel)[key];
     return mergedListData[key];
   }
 
   return (
     <Layout>
       <Row gutter={16}>
-        <Col span={12} style={{ height: '500px' }}>
+        <Col sm={24} md={12} style={{ height: '500px' }}>
           {current.matches('idle') ?
             <Form
               initialValues={{
@@ -168,7 +167,7 @@ const StudyObjectSchedulerPage = () => {
             </Form>
             : <Spin size="large" />}
         </Col>
-        <Col span={12}>
+        <Col sm={24} md={12}>
           <Table dataSource={current.context.studyObjects
             .map(x => ({ ...x, key: x._id }))}
             onRow={(record) => ({
@@ -200,7 +199,11 @@ const StudyObjectSchedulerPage = () => {
       </Row>
       <Row gutter={16}>
         <Col span={24}>
-          <ScheduleCalendar getListData={getListData(current.context.currentStudyObject.toc, current.context.currentStudyObject.start)} />
+          <ScheduleCalendar
+            getListData={getListData(
+              current.context.currentStudyObject.toc,
+              current.context.currentStudyObject.start
+            )} />
         </Col>
       </Row>
     </Layout>
