@@ -304,6 +304,9 @@ const AlarmModal = ({ current, send }: StateUseMachine) => {
     { value: "inspiration", label: "Inspiration" },
     { value: "chores", label: "Chores" },
     { value: "music", label: "Music" },
+    { value: "salsa", label: "Salsa time" },
+    { value: "reggae", label: "Regueton" },
+    { value: "politics", label: "Politics" },
   ]
 
   return <Modal visible={current.matches('editing')}
@@ -446,7 +449,7 @@ const AlarmsPage = () => {
   const [current, send] = useMachine(lightMachine);
 
   return (
-    <Layout style={{ minHeight: '100%' }}>
+    <Layout>
       {current.matches('editing') ?
         <AlarmModal current={current} send={send} /> : null
       }
@@ -460,10 +463,12 @@ const AlarmsPage = () => {
             columns={alarmsColumns(send)} />
         </Col>
         <Col span={24}>
-          <Button icon={<CopyOutlined />} onClick={() => {
-            message.success('Database was successfully copied 🎉');
-            navigator.clipboard.writeText(current.context.alarms.map(x => JSON.stringify(x)).join('\n'))
-          }} />
+          <Row justify='end'>
+            <Button icon={<CopyOutlined />} onClick={() => {
+              message.success('Database was successfully copied 🎉');
+              navigator.clipboard.writeText(current.context.alarms.map(x => JSON.stringify(x)).join('\n'))
+            }} />
+          </Row>
           <pre>{current.context.alarms.map(x => JSON.stringify(x)).join('\n')}</pre>
         </Col>
       </Row>

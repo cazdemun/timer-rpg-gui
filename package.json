@@ -2,6 +2,8 @@
   "name": "master-timer-alarm-gui",
   "version": "0.1.0",
   "private": true,
+  "main": "src/index.tsx",
+  "homepage": "https://cazdemun.github.io/timer-rpg-gui/",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -27,7 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -48,6 +52,7 @@
     ]
   },
   "devDependencies": {
-    "@types/nedb": "^1.8.12"
+    "@types/nedb": "^1.8.12",
+    "gh-pages": "^3.2.3"
   }
 }

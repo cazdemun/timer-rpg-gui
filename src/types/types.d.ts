@@ -71,3 +71,11 @@ export type Task =
     type: 'webpage'
     value: string
   }
+
+export interface StudyObject {
+  _id?: string,
+  name: string,
+  start: string, // 'yyyy-MM-DD'
+  toc: string[],
+  smConfig?: Object
+}
