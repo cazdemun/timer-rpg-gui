@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-use-before-define
 import React, { useState } from 'react';
 import moment from 'moment';
 import { Repository } from '../types/Repository';
@@ -5,11 +6,8 @@ import { Alarm, Task } from '../types/types';
 import { isAfter, isEqual, parse } from 'date-fns';
 import { assign, createMachine, Event, EventData, State } from 'xstate';
 import { useMachine } from '@xstate/react';
-import { Table, Row, Col, Button, message, Form, Layout, Modal, Checkbox, TimePicker, DatePicker, Select, Tag } from 'antd';
+import { Table, Row, Col, Button, message, Form, Layout, Modal, Checkbox, TimePicker, DatePicker, Select, Tag, Input } from 'antd';
 import { CopyOutlined, EditOutlined, DeleteOutlined, PlusSquareOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
-
-
-import 'antd/dist/antd.css';
 
 const Alarms = new Repository<Alarm>('alarms');
 
@@ -295,155 +293,166 @@ const AlarmModal = ({ current, send }: StateUseMachine) => {
   };
 
   const realmsOptions = [
-    { value: "fitness", label: "Exercise" },
-    { value: "work", label: "Work" },
-    { value: "worklite", label: "Work Lite" },
-    { value: "focus", label: "Focus" },
-    { value: "life", label: "Life Management" },
-    { value: "studies", label: "Studies" },
-    { value: "inspiration", label: "Inspiration" },
-    { value: "chores", label: "Chores" },
-    { value: "music", label: "Music" },
-    { value: "salsa", label: "Salsa time" },
-    { value: "reggae", label: "Regueton" },
-    { value: "politics", label: "Politics" },
-  ]
+    { value: 'fitness', label: 'Exercise' },
+    { value: 'work', label: 'Work' },
+    { value: 'worklite', label: 'Work Lite' },
+    { value: 'focus', label: 'Focus' },
+    { value: 'life', label: 'Life Management' },
+    { value: 'studies', label: 'Studies' },
+    { value: 'inspiration', label: 'Inspiration' },
+    { value: 'chores', label: 'Chores' },
+    { value: 'music', label: 'Music' },
+    { value: 'salsa', label: 'Salsa time' },
+    { value: 'reggae', label: 'Regueton' },
+    { value: 'politics', label: 'Politics' },
+  ];
 
-  return <Modal visible={current.matches('editing')}
-    onOk={onOk}
-    onCancel={onCancel}>
-    <Form
-      name="basic"
-      form={form}
-      labelCol={{ span: 4 }}
-      wrapperCol={{ span: 20 }}
-      initialValues={initialValues}
-      autoComplete="off"
+  return (
+    <Modal
+      visible={current.matches('editing')}
+      onOk={onOk}
+      onCancel={onCancel}
     >
-      <Form.Item
-        label="Start"
-        name="start"
-        rules={[{ required: true, message: 'Please input you a start time!' }]}
+      <Form
+        name="basic"
+        form={form}
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 20 }}
+        initialValues={initialValues}
+        autoComplete="off"
       >
-        <TimePicker />
-      </Form.Item>
-
-      <Form.Item
-        label="End"
-        name="end"
-      >
-        <TimePicker />
-      </Form.Item>
-
-      <Form.Item
-        label="Start Date"
-        name="startDate"
-      >
-        <DatePicker />
-      </Form.Item>
-
-      <Form.Item
-        label="End Date"
-        name="endDate"
-      >
-        <DatePicker />
-      </Form.Item>
-
-      <Form.Item
-        label="Weekdays"
-        name="weekdays"
-      >
-        <Checkbox.Group options={[
-          { value: 0, label: 'Su' },
-          { value: 1, label: 'M' },
-          { value: 2, label: 'Tu' },
-          { value: 3, label: 'W' },
-          { value: 4, label: 'Th' },
-          { value: 5, label: 'F' },
-          { value: 6, label: 'Sa' },
-        ]} />
-      </Form.Item>
-
-      <Form.Item
-        label="Task type"
-        name="task"
-      >
-        <Select style={{ width: 150 }}
-          onChange={(value: 'timer' | 'queue') => setTaskType(value)}>
-          <Select.Option value="timer">Timer</Select.Option>
-          <Select.Option value="queue">Queue</Select.Option>
-        </Select>
-      </Form.Item>
-
-      {taskType === 'timer' ?
         <Form.Item
-          label="Value"
-          name="taskValue"
-          rules={[{ required: true, message: 'Please input a value!' }]}
+          label="Start"
+          name="start"
+          rules={[{ required: true, message: 'Please input you a start time!' }]}
         >
-          <Select style={{ width: 150 }}>
-            {realmsOptions.map((r) => <Select.Option key={r.value} value={r.value}>{r.label}</Select.Option>)}
-          </Select>
-        </Form.Item> :
-        <>
-          <Form.List
-            name="taskValue"
-            rules={[
-              {
-                validator: async (_, names) => {
-                  if (!names || names.length < 1) {
-                    return Promise.reject(new Error('At least one timer'));
-                  }
-                },
-              },
-            ]}
+          <TimePicker />
+        </Form.Item>
+
+        <Form.Item
+          label="End"
+          name="end"
+        >
+          <TimePicker />
+        </Form.Item>
+
+        <Form.Item
+          label="Start Date"
+          name="startDate"
+        >
+          <DatePicker />
+        </Form.Item>
+
+        <Form.Item
+          label="End Date"
+          name="endDate"
+        >
+          <DatePicker />
+        </Form.Item>
+
+        <Form.Item
+          label="Weekdays"
+          name="weekdays"
+        >
+          <Checkbox.Group options={[
+            { value: 0, label: 'Su' },
+            { value: 1, label: 'M' },
+            { value: 2, label: 'Tu' },
+            { value: 3, label: 'W' },
+            { value: 4, label: 'Th' },
+            { value: 5, label: 'F' },
+            { value: 6, label: 'Sa' },
+          ]} />
+        </Form.Item>
+
+        <Form.Item
+          label="Task type"
+          name="task"
+        >
+          <Select
+            style={{ width: 150 }}
+            onChange={(value: 'timer' | 'queue') => setTaskType(value)}
           >
-            {(fields, { add, remove }, { errors }) => (
-              <>
-                {fields.map((field, index) => (
-                  <Form.Item
-                    {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                    label={index === 0 ? 'Values' : ''}
-                    required={false}
-                    key={field.key}
-                  >
-                    <Form.Item
-                      {...field}
-                      validateTrigger={['onChange', 'onBlur']}
-                      rules={[{ required: true, message: 'Please input a value!' }]}
-                      noStyle
-                    >
-                      <Select style={{ width: '60%', marginRight: '5px' }}>
-                        {realmsOptions.map((r) => <Select.Option key={r.value} value={r.value}>{r.label}</Select.Option>)}
-                      </Select>
-                    </Form.Item>
-                    {fields.length > 1 ? (
-                      <MinusCircleOutlined
-                        className="dynamic-delete-button"
-                        onClick={() => remove(field.name)}
-                      />
-                    ) : null}
-                  </Form.Item>
+            <Select.Option value="timer">Timer</Select.Option>
+            <Select.Option value="queue">Queue</Select.Option>
+          </Select>
+        </Form.Item>
+
+        {taskType === 'timer'
+          ? (
+            <Form.Item
+              label="Value"
+              name="taskValue"
+              rules={[{ required: true, message: 'Please input a value!' }]}
+            >
+              <Select style={{ width: 150 }}>
+                {realmsOptions.map((r) => (
+                  <Select.Option key={r.value} value={r.value}>
+                    {r.label}
+                  </Select.Option>
                 ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    style={{ width: '60%' }}
-                    icon={<PlusOutlined />}
-                  >
-                    Add field
-                  </Button>
-                  <Form.ErrorList errors={errors} />
-                </Form.Item>
-              </>
-            )}
-          </Form.List>
-        </>
-      }
-    </Form>
-  </Modal>
-}
+              </Select>
+            </Form.Item>
+          )
+          : (
+            <Form.List
+              name="taskValue"
+              rules={[
+                {
+                  validator: async (_, names) => {
+                    if (!names || names.length < 1) {
+                      return Promise.reject(new Error('At least one timer'));
+                    }
+                  },
+                },
+              ]}
+            >
+              {(fields, { add, remove }, { errors }) => (
+                <>
+                  {fields.map((field, index) => (
+                    <Form.Item
+                      {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                      label={index === 0 ? 'Values' : ''}
+                      required={false}
+                      key={field.key}
+                    >
+                      <Form.Item
+                        {...field}
+                        validateTrigger={['onChange', 'onBlur']}
+                        rules={[{ required: true, message: 'Please input a value!' }]}
+                        noStyle
+                      >
+                        <Select style={{ width: '60%', marginRight: '5px' }}>
+                          {realmsOptions.map((r) => <Select.Option key={r.value} value={r.value}>{r.label}</Select.Option>)}
+                        </Select>
+                      </Form.Item>
+                      {fields.length > 1 ? (
+                        <MinusCircleOutlined
+                          className="dynamic-delete-button"
+                          onClick={() => remove(field.name)}
+                        />
+                      ) : null}
+                    </Form.Item>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      style={{ width: '60%' }}
+                      icon={<PlusOutlined />}
+                    >
+                      Add field
+                    </Button>
+                    <Form.ErrorList errors={errors} />
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
+          )}
+      </Form>
+    </Modal>
+  );
+};
 
 const AlarmsPage = () => {
   const [current, send] = useMachine(lightMachine);
@@ -463,13 +472,39 @@ const AlarmsPage = () => {
             columns={alarmsColumns(send)} />
         </Col>
         <Col span={24}>
-          <Row justify='end'>
-            <Button icon={<CopyOutlined />} onClick={() => {
-              message.success('Database was successfully copied 🎉');
-              navigator.clipboard.writeText(current.context.alarms.map(x => JSON.stringify(x)).join('\n'))
-            }} />
+          <Row justify="end">
+            <Button
+              icon={<CopyOutlined />}
+              onClick={() => {
+                message.success('Database was successfully copied 🎉');
+                navigator.clipboard.writeText(current.context.alarms.map((x) => JSON.stringify(x)).join('\n'));
+              }}
+            />
           </Row>
-          <pre>{current.context.alarms.map(x => JSON.stringify(x)).join('\n')}</pre>
+          <pre>{current.context.alarms.map((x) => JSON.stringify(x)).join('\n')}</pre>
+        </Col>
+        <Col span={24}>
+          <Form
+            onFinish={(values) => {
+              console.log(values.data.split('\n').map((x: string) => JSON.parse(x)));
+              values.data
+                .split('\n')
+                .map((x: string) => JSON.parse(x))
+                .map((x: Alarm) => Alarms.insert(x));
+            }}
+          >
+            <Row justify="end">
+              <Button
+                icon={<CopyOutlined />}
+                htmlType="submit"
+              />
+            </Row>
+            <Form.Item
+              name="data"
+            >
+              <Input.TextArea style={{ height: '50%', minHeight: '300px' }} />
+            </Form.Item>
+          </Form>
         </Col>
       </Row>
     </Layout>
