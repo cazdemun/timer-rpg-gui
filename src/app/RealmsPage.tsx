@@ -1,5 +1,5 @@
 import React from 'react';
-import { Repository } from '../types/Repository';
+import Repository from '../types/Repository';
 import { Alarm, RealmV2 as Realm } from '../types/types';
 import { assign, createMachine, Event, EventData, State } from 'xstate';
 import { useMachine } from '@xstate/react';

@@ -5,11 +5,12 @@ import {
   Spin, Col, Layout, Row, Input, Calendar,
   Button, Badge, Form, DatePicker, Table,
 } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { createMachine, assign } from 'xstate';
 import { useMachine } from '@xstate/react';
 import { addDays, supermemoScheduleThree } from './Services/supermemo2';
 import { StudyObject } from '../types/types';
-import { Repository } from '../types/Repository';
+import Repository from '../types/Repository';
 
 // TODO - Modify SRS with form
 const StudyObjects = new Repository<StudyObject>('studyobj');
@@ -64,6 +65,12 @@ const schedulerMachine = createMachine<SchedulerContext>({
             currentStudyObject: defaultStudyObject,
           })),
         },
+        DELETE_STUDY_OBJECT: {
+          target: 'deletingService',
+          actions: assign((_, __) => ({
+            currentStudyObject: defaultStudyObject,
+          })),
+        },
       },
     },
     savingStudyObject: {
@@ -71,6 +78,12 @@ const schedulerMachine = createMachine<SchedulerContext>({
         src: (context) => (context.currentStudyObject._id
           ? StudyObjects.update(context.currentStudyObject._id, context.currentStudyObject)
           : StudyObjects.insert(context.currentStudyObject)),
+        onDone: 'loading',
+      },
+    },
+    deletingService: {
+      invoke: {
+        src: (_, event: any) => StudyObjects.delete(event.data.studyObjectId),
         onDone: 'loading',
       },
     },
@@ -156,35 +169,38 @@ const StudyObjectSchedulerPage = () => {
                     }
                   })
               }}>
-              <Form.Item name='name' rules={[{ required: true }]}>
+              <Form.Item name="name" rules={[{ required: true }]}>
                 <Input />
               </Form.Item>
-              <Form.Item name='start' rules={[{ required: true }]}>
+              <Form.Item name="start" rules={[{ required: true }]}>
                 <DatePicker />
               </Form.Item>
-              <Form.Item name='toc' rules={[{ required: true }]}>
+              <Form.Item name="toc" rules={[{ required: true }]}>
                 <Input.TextArea style={{ height: '50%', minHeight: '300px' }} />
               </Form.Item>
-              <Row justify='end'>
-                <Button htmlType='submit'>Schedule</Button>
+              <Row justify="end">
+                <Button htmlType="submit">
+                  {current.context.currentStudyObject._id
+                    ? 'Update/Schedule' : 'Create/Schedule'}
+                </Button>
               </Row>
             </Form>
           )
             : <Spin size="large" />}
         </Col>
         <Col sm={24} md={12}>
-          <Table dataSource={current.context.studyObjects
-            .map(x => ({ ...x, key: x._id }))}
+          <Table
+            dataSource={current.context.studyObjects
+              .map((x) => ({ ...x, key: x._id }))}
             onRow={(record) => ({
-              onClick: (_) => {
-                if (record._id === current.context.currentStudyObject._id)
-                  return;
+              onClick: () => {
+                if (record._id === current.context.currentStudyObject._id) return;
                 send('LOAD_STUDY_OBJECT',
                   {
                     data: {
-                      studyObject: record
-                    }
-                  })
+                      studyObject: record,
+                    },
+                  });
               },
             })}
             pagination={{ pageSize: 5 }}
@@ -198,8 +214,26 @@ const StudyObjectSchedulerPage = () => {
                 title: 'Start',
                 dataIndex: 'start',
                 key: 'start',
-              }
-            ]} />
+              },
+              {
+                title: 'Operation',
+                dataIndex: 'operation',
+                render: (_: any, record: any) => (
+                  <Row>
+                    <Button
+                      icon={<DeleteOutlined />}
+                      onClick={() => send('DELETE_STUDY_OBJECT', {
+                        data: {
+                          studyObjectId: record._id,
+                        },
+                      })}
+                    />
+                  </Row>
+                ),
+                width: 100,
+              },
+            ]}
+          />
         </Col>
       </Row>
       <Row gutter={16}>
@@ -207,12 +241,13 @@ const StudyObjectSchedulerPage = () => {
           <ScheduleCalendar
             getListData={getListData(
               current.context.currentStudyObject.toc,
-              current.context.currentStudyObject.start
-            )} />
+              current.context.currentStudyObject.start,
+            )}
+          />
         </Col>
       </Row>
     </Layout>
   );
-}
+};
 
 export default StudyObjectSchedulerPage;

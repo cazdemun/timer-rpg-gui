@@ -1,10 +1,11 @@
+// eslint-disable-next-line no-use-before-define
 import React from 'react';
-import AlarmsPage from './app/AlarmsPage';
 
 import 'antd/dist/antd.css';
 import { createMachine } from 'xstate';
 import { useMachine } from '@xstate/react';
 import { Layout, Menu } from 'antd';
+import AlarmsPage from './app/AlarmsPage';
 import IndexSchedulerPage from './app/IndexSchedulerPage';
 
 const { Header, Footer, Content } = Layout;
@@ -13,7 +14,6 @@ type NavEvent =
   | { type: 'TO_ALARM_PAGE' }
   | { type: 'TO_REALM_PAGE' }
   | { type: 'TO_INDEX_SCHEDULER_PAGE' }
-
 
 interface NavContext {
 }
@@ -29,12 +29,11 @@ const navMachine = createMachine<NavContext, NavEvent>({
     indexSchedulerPage: {},
   },
   on: {
-    'TO_ALARM_PAGE': 'alarmPage',
-    'TO_REALM_PAGE': 'realmPage',
-    'TO_INDEX_SCHEDULER_PAGE': 'indexSchedulerPage',
-  }
-})
-
+    TO_ALARM_PAGE: 'alarmPage',
+    TO_REALM_PAGE: 'realmPage',
+    TO_INDEX_SCHEDULER_PAGE: 'indexSchedulerPage',
+  },
+});
 
 function App() {
   const [current, send] = useMachine(navMachine);
@@ -45,14 +44,14 @@ function App() {
         <div className="logo" />
         {/* <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']}> */}
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-          <Menu.Item key={'0'} onClick={() => send('TO_ALARM_PAGE')}>
-            {'Alarms'}
+          <Menu.Item key="0" onClick={() => send('TO_ALARM_PAGE')}>
+            Alarms
           </Menu.Item>
-          <Menu.Item key={'1'} onClick={() => send('TO_REALM_PAGE')}>
-            {'Realms'}
+          <Menu.Item key="1" onClick={() => send('TO_REALM_PAGE')}>
+            Realms
           </Menu.Item>
-          <Menu.Item key={'2'} onClick={() => send('TO_INDEX_SCHEDULER_PAGE')}>
-            {'Index Scheduler'}
+          <Menu.Item key="2" onClick={() => send('TO_INDEX_SCHEDULER_PAGE')}>
+            Index Scheduler
           </Menu.Item>
         </Menu>
       </Header>
@@ -60,13 +59,13 @@ function App() {
         {(() => {
           switch (current.value) {
             case 'alarmPage':
-              return <AlarmsPage />
+              return <AlarmsPage />;
             case 'realmPage':
-              return <div>hola</div>
+              return <div>hola</div>;
             case 'indexSchedulerPage':
-              return <IndexSchedulerPage />
+              return <IndexSchedulerPage />;
             default:
-              break;
+              return <></>;
           }
         })()}
       </Content>

@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-use-before-define
 import React, { useState } from 'react';
 import moment from 'moment';
-import { Repository } from '../types/Repository';
+import Repository from '../types/Repository';
 import { Alarm, Task } from '../types/types';
 import { isAfter, isEqual, parse } from 'date-fns';
 import { assign, createMachine, Event, EventData, State } from 'xstate';
