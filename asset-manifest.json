@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/timer-rpg-gui/static/css/main.19156b39.chunk.css",
-    "main.js": "/timer-rpg-gui/static/js/main.c91a4961.chunk.js",
-    "main.js.map": "/timer-rpg-gui/static/js/main.c91a4961.chunk.js.map",
+    "main.js": "/timer-rpg-gui/static/js/main.d641f5be.chunk.js",
+    "main.js.map": "/timer-rpg-gui/static/js/main.d641f5be.chunk.js.map",
     "runtime-main.js": "/timer-rpg-gui/static/js/runtime-main.64546cf6.js",
     "runtime-main.js.map": "/timer-rpg-gui/static/js/runtime-main.64546cf6.js.map",
     "static/css/2.786ae0dd.chunk.css": "/timer-rpg-gui/static/css/2.786ae0dd.chunk.css",
-    "static/js/2.28e9ddba.chunk.js": "/timer-rpg-gui/static/js/2.28e9ddba.chunk.js",
-    "static/js/2.28e9ddba.chunk.js.map": "/timer-rpg-gui/static/js/2.28e9ddba.chunk.js.map",
+    "static/js/2.4328783c.chunk.js": "/timer-rpg-gui/static/js/2.4328783c.chunk.js",
+    "static/js/2.4328783c.chunk.js.map": "/timer-rpg-gui/static/js/2.4328783c.chunk.js.map",
     "static/js/3.21a0e825.chunk.js": "/timer-rpg-gui/static/js/3.21a0e825.chunk.js",
     "static/js/3.21a0e825.chunk.js.map": "/timer-rpg-gui/static/js/3.21a0e825.chunk.js.map",
     "index.html": "/timer-rpg-gui/index.html",
     "static/css/2.786ae0dd.chunk.css.map": "/timer-rpg-gui/static/css/2.786ae0dd.chunk.css.map",
     "static/css/main.19156b39.chunk.css.map": "/timer-rpg-gui/static/css/main.19156b39.chunk.css.map",
-    "static/js/2.28e9ddba.chunk.js.LICENSE.txt": "/timer-rpg-gui/static/js/2.28e9ddba.chunk.js.LICENSE.txt"
+    "static/js/2.4328783c.chunk.js.LICENSE.txt": "/timer-rpg-gui/static/js/2.4328783c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.64546cf6.js",
     "static/css/2.786ae0dd.chunk.css",
-    "static/js/2.28e9ddba.chunk.js",
+    "static/js/2.4328783c.chunk.js",
     "static/css/main.19156b39.chunk.css",
-    "static/js/main.c91a4961.chunk.js"
+    "static/js/main.d641f5be.chunk.js"
   ]
 }
